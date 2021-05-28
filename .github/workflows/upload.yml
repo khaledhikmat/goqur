@@ -26,5 +26,6 @@ jobs:
           container_name: files
           # The local folder containing all the files and subfolders to upload to the blob container (use a trailing slash)
           source_folder: ./uploads 
+          # Optional parameters
           fail_if_source_empty: false
           is_recursive: false
