@@ -1,0 +1,12 @@
+C:\Users\khale\OneDrive\Work\src\KhaledHikmat\Projects\goqur\csharp\shared\bin\Release\net5.0\shared.deps.json
+C:\Users\khale\OneDrive\Work\src\KhaledHikmat\Projects\goqur\csharp\shared\bin\Release\net5.0\shared.dll
+C:\Users\khale\OneDrive\Work\src\KhaledHikmat\Projects\goqur\csharp\shared\bin\Release\net5.0\ref\shared.dll
+C:\Users\khale\OneDrive\Work\src\KhaledHikmat\Projects\goqur\csharp\shared\bin\Release\net5.0\shared.pdb
+C:\Users\khale\OneDrive\Work\src\KhaledHikmat\Projects\goqur\csharp\shared\obj\Release\net5.0\shared.csprojAssemblyReference.cache
+C:\Users\khale\OneDrive\Work\src\KhaledHikmat\Projects\goqur\csharp\shared\obj\Release\net5.0\shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\khale\OneDrive\Work\src\KhaledHikmat\Projects\goqur\csharp\shared\obj\Release\net5.0\shared.AssemblyInfoInputs.cache
+C:\Users\khale\OneDrive\Work\src\KhaledHikmat\Projects\goqur\csharp\shared\obj\Release\net5.0\shared.AssemblyInfo.cs
+C:\Users\khale\OneDrive\Work\src\KhaledHikmat\Projects\goqur\csharp\shared\obj\Release\net5.0\shared.csproj.CoreCompileInputs.cache
+C:\Users\khale\OneDrive\Work\src\KhaledHikmat\Projects\goqur\csharp\shared\obj\Release\net5.0\shared.dll
+C:\Users\khale\OneDrive\Work\src\KhaledHikmat\Projects\goqur\csharp\shared\obj\Release\net5.0\ref\shared.dll
+C:\Users\khale\OneDrive\Work\src\KhaledHikmat\Projects\goqur\csharp\shared\obj\Release\net5.0\shared.pdb
