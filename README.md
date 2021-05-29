@@ -84,10 +84,12 @@ Initially, the following will be implemented:
 - az group create -l westus -n gq-search-rg
 - az search service create --name gq-search-svc --resource-group gq-search-rg --sku free --location westus
 - az search admin-key show --service-name gq-search-svc --resource-group gq-search-rg 
+```
 {
   "primaryKey": "********",
   "secondaryKey": "********"
 }
+```
 
 ## Nuget
 
