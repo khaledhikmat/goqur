@@ -1,38 +1,24 @@
-az login
-az group create -l westus -n gq-search-rg
-az search service create --name gq-search-svc --resource-group gq-search-rg --sku free --location westus
-az search admin-key show --service-name gq-search-svc --resource-group gq-search-rg 
+- az login
+- az group create -l westus -n gq-search-rg
+- az search service create --name gq-search-svc --resource-group gq-search-rg --sku free --location westus
+- az search admin-key show --service-name gq-search-svc --resource-group gq-search-rg 
 {
-  "primaryKey": "10D8941A4A4180BEC05F29E80296A549",
-  "secondaryKey": "F463D171FB4FE87ACE526BB9B4815BE5"
+  "primaryKey": "********",
+  "secondaryKey": "********"
 }
 
-URL: https://gq-search-svc.search.windows.net
-dotnet add package Azure.Search.Documents --version 11.3.0-beta.2
+- dotnet add package Azure.Search.Documents --version 11.3.0-beta.2
 
-Install-Package Microsoft.Extensions.Configuration
-Install-Package Microsoft.Extensions.Configuration.Json
-Install-Package Microsoft.Extensions.Configuration.CommandLine
-Install-Package Microsoft.Extensions.Configuration.EnvironmentVariables 
-Install-Package Microsoft.Extensions.Configuration.Binder (outside of ASP.NET)
+- Install-Package Microsoft.Extensions.Configuration
+- Install-Package Microsoft.Extensions.Configuration.Json
+- Install-Package Microsoft.Extensions.Configuration.CommandLine
+- Install-Package Microsoft.Extensions.Configuration.EnvironmentVariables 
+- Install-Package Microsoft.Extensions.Configuration.Binder (outside of ASP.NET)
 
-dotnet add functionapp/goqur.csproj reference shared/shared.csproj
+- dotnet add functionapp/goqur.csproj reference shared/shared.csproj
 
 Custom handlers are a thing in Functions. The source has an example in Go. But obviously it makes more sense to use C# for this purpose since the client SDKs are much richer.
 
-## Microservices
-Initially, the following will be implemented:
-- Custom handler Azure function written in Go (possibly C# instead depending on how complicated things are to use the Search service REST APIs)
-- Azure Search Service to store documents as surahs and ayahs 
-- Logic App to update the index
-The above Microservies scale independently 
-
-## Endpoints
-- GET `goqur/api/surahs/{id}` - returns surah tags
-- GET `goqur/api/surahs/{name}`  - returns surah tags
-- GET `goqur/api/ayahs/{id}` - returns ayah tags
-- GET `goqur/api/tags/{name}` - returns ayah that match the tag
-- POST `goqur/api/tags` - returns surah/ayah that match the posted tags
 ## POC
 - Experiment with custom handlers using Go in Azure Functions to expose  `goqur` REST endpoints. This will be used to serve the actual client requests. Clients can be Postman or any other platform that would want to provide a UI to this API. Perhaps use the auto-generator mentioned in [references](#references) below. This custom handler will use the search service REST APIs directly to render results. 
 - Experiment with C# handler as well although I prefer Go for obvious reasons
@@ -87,6 +73,7 @@ cd csharp/functionsapp
 dotnet 
 ```
 Help Omni sharp by selecting the project
+
 ## Manager
 Delete, create and upload documents programmatically:
 ```
@@ -94,37 +81,6 @@ cd csharp/manager
 dotnet run delete
 dotnet run create
 ```
-## Things to do
-- Beautify index file for the auto-genetrated search site as in Jacob's blog
-- Logic app to receive an email with attachment from a specific email source and update the blob storage. This is less important as I can easily upload from the Azure portal
-- Translation API for the Enricher service
-- Explorer function APIs
-- Front-end:
-    - wix.com
-    - Flutter, MAUI or Blazor
-    - Azure Static Web Sites
-- CSV import via an indexer...still not sure why I am not able to do it...[posted to SFO](https://stackoverflow.com/questions/67688233/how-to-import-from-csv-into-a-collection-of-strings)
-- Durable 3.1 version for the `WaitAll` pattern
-- ~~Auto-create index instead of having to reply on manager~~
-- There are some hard-coded stuff such as:
-    - Queue name
-    - Blob name
-## References
-- Golang custom handler - [https://www.youtube.com/watch?v=RPCEH247twU](https://www.youtube.com/watch?v=RPCEH247twU)
-- Azure Search with Jacob - [https://www.youtube.com/watch?v=6kw8SHwxp9c](https://www.youtube.com/watch?v=6kw8SHwxp9c)
-- A static generator to generate search site for your index - [AzSearch.js in Github to auto-generate UI](https://aka.ms/azfr/572/03)
-- Jacob's blog post about the generation process - [https://jj09.net/cognitive-search-azure-search-with-ai/](https://jj09.net/cognitive-search-azure-search-with-ai/)
-- JFK Files after they have been de-classified - [https://jfkfiles2.azurewebsites.net/](https://jfkfiles2.azurewebsites.net/)
-- Azure Functions custom handler documentation - [https://docs.microsoft.com/en-us/azure/azure-functions/functions-custom-handlers](https://docs.microsoft.com/en-us/azure/azure-functions/functions-custom-handlers)
-- Azure Static Web Apps - [https://www.youtube.com/watch?v=cgAL6z_FcLY](https://www.youtube.com/watch?v=cgAL6z_FcLY) 
-- Power Skills - [https://github.com/Azure-Samples/azure-search-power-skills](https://github.com/Azure-Samples/azure-search-power-skills)
-- Custom Skills - [https://docs.microsoft.com/en-us/azure/search/cognitive-search-custom-skill-web-api](https://docs.microsoft.com/en-us/azure/search/cognitive-search-custom-skill-web-api)
-- Bing Custom Skill - [https://docs.microsoft.com/en-us/azure/search/cognitive-search-create-custom-skill-example](https://docs.microsoft.com/en-us/azure/search/cognitive-search-create-custom-skill-example)
-- Data Imports - [https://docs.microsoft.com/en-us/azure/search/search-what-is-data-import](https://docs.microsoft.com/en-us/azure/search/search-what-is-data-import)
-- [Azure Static Web Apps](aka.ms/StaticWebApps) 
-- [How to index CSV blobs](https://docs.microsoft.com/en-us/azure/search/search-howto-index-csv-blobs)
-- [JFrog Explanation](https://www.youtube.com/watch?v=QFcJfqGxNsg)
-- [JFrog Easy](https://www.youtube.com/watch?v=f3O_C8q-vrI)
 
 ## Dockerization
 
