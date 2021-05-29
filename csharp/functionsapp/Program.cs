@@ -12,10 +12,12 @@ namespace functionsapp
     {
         private static string AYAS_INDEX_NAME = "gq-ayahs-managed-index";
         private static string AYAS_QUEUE_NAME = "ayah-items";
+        private static string SEARCH_SVC_ENDPOINT = "SEARCH_SVC_ENDPOINT";
+        private static string SEARCH_SVC_API_KEY = "SEARCH_SVC_API_KEY";
         public static async Task Main(string [] args)
         {
-            string searchEndpoint = GetEnvironmentVariable("SearchEndpoint");
-            string searchKey = GetEnvironmentVariable("SearchKey");
+            string searchEndpoint = GetEnvironmentVariable(SEARCH_SVC_ENDPOINT);
+            string searchKey = GetEnvironmentVariable(SEARCH_SVC_API_KEY);
             string storageConnectionString = GetEnvironmentVariable("AzureWebJobsStorage");
 
             var host = new HostBuilder()

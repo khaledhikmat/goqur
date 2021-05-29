@@ -135,7 +135,6 @@ To initialize a Docker file, use this command in the functions app project:
 Func init --help
 func init --docker-only --worker-runtime dotnetIsolated
 docker image build --tag goqur-functions .
-docker container run -it -p 8080:80 goqur-functions
 ```
 
 Unfortunately the .NET 5.0 environment still requires .NET 3.1 to run. So I had to install .NET 3.1 runtime in the Docker image:
@@ -146,11 +145,36 @@ RUN apt-get update
 RUN apt-get -y install dotnet-sdk-3.1
 ```
 
-// Pass all the settings as env variables:
+// Pass all the settings as env variables to the local image:
 ```
-docker container run -it -p 8080:80 -e SearchEndpoint=https://your-svs.search.windows.net -e SearchKey=your-key -e AzureWebJobsAzureWebJobsStorage="DefaultEndpointsProtocol=https;AccountName=your-name;AccountKey=your-key;EndpointSuffix=core.windows.net"  -e AzureWebJobsStorage="DefaultEndpointsProtocol=https;AccountName=your-name;AccountKey=your-key;EndpointSuffix=core.windows.net" goqur-functions
+docker container run -it -p 8080:80 -e SEARCH_SVC_ENDPOINT=https://your-svs.search.windows.net -e SEARCH_SVC_API_KEY=your-key -e AzureWebJobsAzureWebJobsStorage="DefaultEndpointsProtocol=https;AccountName=your-name;AccountKey=your-key;EndpointSuffix=core.windows.net"  -e AzureWebJobsStorage="DefaultEndpointsProtocol=https;AccountName=your-name;AccountKey=your-key;EndpointSuffix=core.windows.net" goqur-functions
 ```
 
 Try with Postman:
 http://localhost:8080/api/Explorer
+
+// Pass all the settings as env variables to the Docker hub image:
+```
+docker container run -it -p 8080:80 -e SEARCH_SVC_ENDPOINT=https://your-svs.search.windows.net -e SEARCH_SVC_API_KEY=your-key -e AzureWebJobsAzureWebJobsStorage="DefaultEndpointsProtocol=https;AccountName=your-name;AccountKey=your-key;EndpointSuffix=core.windows.net"  -e AzureWebJobsStorage="DefaultEndpointsProtocol=https;AccountName=your-name;AccountKey=your-key;EndpointSuffix=core.windows.net" khaledhikmat/goqur-functions:latest
+```
+
+Deploy to the default namespace. Make sure to update the env variables in `deployment.yml` for your environment:
+```
+kubectl apply -f k8s/functions/deployment.yml
+kubectl apply -f k8s/functions/service.yml
+kubectl get all
+```
+
+Validate:
+```
+kubectl logs replicaset.apps/goqur-functions-deployment-replace-with-your-own --tail 100
+```
+
+Undeploy:
+...
+kubectl delete -f k8s/functions/service.yml
+kubectl delete -f k8s/functions/deployment.yml
+kubectl get all
+```
+
 

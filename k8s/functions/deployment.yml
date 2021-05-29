@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goqur-functions-deployment
+  labels:
+    app: goqur-functions
+spec:
+  selector:
+    matchLabels:
+      app: goqur-functions
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: goqur-functions
+    spec:
+      containers:
+      - name: goqur-functions
+        image: khaledhikmat/goqur-functions:latest
+        env:
+          - name: SEARCH_SVC_ENDPOINT
+            value: "https://your-svc.search.windows.net"
+          - name: SEARCH_SVC_API_KEY
+            value: "******"
+          - name: AzureWebJobsAzureWebJobsStorage
+            value: "******"
+          - name: AzureWebJobsStorage
+            value: "******"
+        ports:
+        - containerPort: 80
+      

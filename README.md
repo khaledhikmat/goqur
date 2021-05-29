@@ -1,6 +1,6 @@
 This platform is called `goqur`. It is pronounced `go cure`. It is meant to provide a set of API Endpoints to explore the different nouns and concepts in ayahs of the Quran.  
 
-##Please note## because this is a multi-project source, `azureFunctions.projectSubpath` setting is needed to point to the functions app!!!
+**Please note** because this is a multi-project source, VS code require this `azureFunctions.projectSubpath` setting to properly point to the functions app!!!
 
 ## Data source
 
@@ -28,18 +28,19 @@ Initially, the following will be implemented:
         - If the Arabic nouns (or concepts) collection is populated but the English one is empty, then auto-translate the Arabic entities to English
         - If the English nouns (or concepts) collection is populated and the Arabic one is empty, then auto-translate the English entities to Arabic
         - If both Arabic and English collections are populated, then do not apply any translation
-    - `Explorer`; provides REST Endpoints to clients to interact with the 
-- Logic App to update the index. This will be deferred as Logic Apps preview in Azure is going through a lot of changes 
+    - `Explorer`: provides REST Endpoints to clients to interact with the clients
 - Exploration client:
-    - [Azure search generator](http://azsearchstore.azurewebsites.net/azsearchgenerator/index.html) to produce a static site to expriment with content exploration. This can be customozed a little as described [here](https://jj09.net/cognitive-search-azure-search-with-ai/) 
+    - [Azure search generator](http://azsearchstore.azurewebsites.net/azsearchgenerator/index.html) to produce a static site to expriment with content exploration. This can be customized a little as described [here](https://jj09.net/cognitive-search-azure-search-with-ai/) 
     - wix.com
     - Azure Static Web Apps to deploy the statically generated site
     - Flutter, MAUI or Blazor
     - Etc 
+- Logic App to update the index. This will be deferred as Logic Apps preview in Azure is going through a lot of changes 
 
 ## Things to do
 
 - Beautify index file for the auto-genetrated search site as in Jacob's blog
+- ~~Change ENV Variables to capital~~
 - Logic app to receive an email with attachment from a specific email source and update the blob storage. This is less important as I can easily upload from the Azure portal
 - Translation API for the Enricher service
 - Explorer function APIs

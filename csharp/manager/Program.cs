@@ -61,8 +61,8 @@ namespace goqur.manager
                     .AddEnvironmentVariables()
                     .Build();
 
-                string searchEndpoint = Configuration.GetValue<string>("SEARCH_ENDPOINT");
-                string searchKey = Configuration.GetValue<string>("SEARCH_API_KEY");
+                string searchEndpoint = Configuration.GetValue<string>("SEARCH_SVC_ENDPOINT");
+                string searchKey = Configuration.GetValue<string>("SEARCH_SVC_API_KEY");
                 Console.WriteLine($"URL: {searchEndpoint} - KEY: {searchKey}");
                 _searchService = new SearchService(searchEndpoint, searchKey, AYAS_INDEX_NAME);
             }
