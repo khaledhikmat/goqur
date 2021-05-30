@@ -22,6 +22,12 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           enable-AzPSSession: true
 
+      - name: Delete resource group
+        run: |
+          az group delete \
+              --name ${{ env.GQ_RESOURCE_GROUP }}  \
+              --no-wait
+
       - name: Create resource group
         run: |
           az group create \
@@ -34,7 +40,7 @@ jobs:
               --name ${{ env.GQ_STORAGE }} \
               --resource-group ${{ env.GQ_RESOURCE_GROUP }} \
               --location ${{ env.GQ_LOCATION }} \
-              --sku Standard_ZRS \
+              --sku Standard_LRS \
               --encryption-services blob
       
       - name: Create storage role
