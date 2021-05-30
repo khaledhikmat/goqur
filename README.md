@@ -4,7 +4,7 @@ This platform is called `goqur`. It is pronounced `go cure`. It is meant to prov
 
 ## Data source
 
-A CSV file that has one row per Ayah. Each has the following columns:
+Tge `goqur` data source is a CSV file with one row per Ayaha and a header. Each has the following columns:
 - Surah number
 - Surah Arabic name
 - Surah English name
@@ -176,4 +176,8 @@ kubectl get all
 - Data Imports - [https://docs.microsoft.com/en-us/azure/search/search-what-is-data-import](https://docs.microsoft.com/en-us/azure/search/search-what-is-data-import)
 - [Azure Static Web Apps](aka.ms/StaticWebApps) 
 - [How to index CSV blobs](https://docs.microsoft.com/en-us/azure/search/search-howto-index-csv-blobs)
+- [Github actions worklfow commands](https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions)
+- [Github actions for Azure CLI](https://github.com/marketplace/actions/azure-cli-action)
+
+
 

@@ -37,19 +37,19 @@ jobs:
               --sku Standard_LRS \
               --encryption-services blob
       
-      - name: Create storage role
-        run: |
-          az ad signed-in-user show --query objectId -o tsv | az role assignment create \
-              --role "Storage Blob Data Contributor" \
-              --assignee khaledhikmat@gmail.com \
-              --scope "/subscriptions/${{ secrets.AZURE_SUBS_ID }}/resourceGroups/${{ env.GQ_RESOURCE_GROUP }}/providers/Microsoft.Storage/storageAccounts/${{ env.GQ_STORAGE }}"
+      # - name: Create storage role
+      #   run: |
+      #     az ad signed-in-user show --query objectId -o tsv | az role assignment create \
+      #         --role "Storage Blob Data Contributor" \
+      #         --assignee @- \
+      #         --scope "/subscriptions/${{ secrets.AZURE_SUBS_ID }}/resourceGroups/${{ env.GQ_RESOURCE_GROUP }}/providers/Microsoft.Storage/storageAccounts/${{ env.GQ_STORAGE }}"
 
-      - name: Create storage container
-        run: |
-          az storage container create \
-              --account-name ${{ env.GQ_STORAGE }} \
-              --name ${{ env.GQ_STORAGE_CONTAINER }} \
-              --auth-mode login
+      # - name: Create storage container
+      #   run: |
+      #     az storage container create \
+      #         --account-name ${{ env.GQ_STORAGE }} \
+      #         --name ${{ env.GQ_STORAGE_CONTAINER }} \
+      #         --auth-mode login
 
       - name: Create search service
         run: |
