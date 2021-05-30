@@ -1,6 +1,6 @@
 This platform is called `goqur`. It is pronounced `go cure`. It is meant to provide a set of API Endpoints to explore the different nouns and concepts in ayahs of the Quran.  
 
-**Please note** because this is a multi-project source, VS code require this `azureFunctions.projectSubpath` setting to properly point to the functions app!!!
+**Please note** that, because this is a multi-project source, VS code requires this `azureFunctions.projectSubpath` setting point to the functions app!!!
 
 ## Data source
 
