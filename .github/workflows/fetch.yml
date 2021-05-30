@@ -20,4 +20,4 @@ jobs:
           az search admin-key show --service-name gq-search-svc --resource-group gq-search-rg
       
       - name: Display search service keys
-        run: echo "Keys are ${{ steps.azure-search-keys.outputs["primaryKey"]}}"
+        run: echo "Keys are ${{ steps.azure-search-keys.outputs['primaryKey']}}"
