@@ -20,7 +20,7 @@ jobs:
           az search admin-key show --service-name gq-search-svc --resource-group gq-search-rg
       
       - name: Run Azure CLI to retrieve search service keys and send to the output
-        id: azure-search-keys
+        id: azure-search-keys2
         run: |
           echo "::set-output name=SEARCH_KEYS::$(az search admin-key show --service-name gq-search-svc --resource-group gq-search-rg)"
       
@@ -30,4 +30,4 @@ jobs:
 
       - name: Display primary key by scraping the previous step output
         run: |
-          echo "Primary keys is ${{ steps.azure-search-keys.outputs.SEARCH_KEYS }}"
+          echo "Primary keys is ${{ steps.search.outputs.SEARCH_KEYS }}"
