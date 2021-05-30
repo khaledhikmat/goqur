@@ -1,0 +1,66 @@
+name: Create resources
+
+on:
+  [workflow_dispatch]
+
+env:
+  GQ_RESOURCE_GROUP: gq-rg                # goqur resource group name
+  GQ_LOCATION: westus                     # goqur location
+  GQ_STORAGE: gqstorage                   # goqur storage name
+  GQ_STORAGE_CONTAINER: files             # goqur storage container name
+  GQ_SEARCH_SERVICE: gq-search            # goqur search service name
+  GQ_SEARCH_SERVICE_TIER: free            # goqur search service tier
+
+jobs:
+  fetch:
+    name: Create goqur resources
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Azure 
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true
+
+      - name: Create resource group
+        run: |
+          az group create \
+            --name ${{ env.GQ_RESOURCE_GROUP }} \
+            --location ${{ env.GQ_LOCATION }}
+
+      - name: Create storage
+        run: |
+          az storage account create \
+              --name ${{ env.GQ_STORAGE }} \
+              --resource-group ${{ env.GQ_RESOURCE_GROUP }} \
+              --location ${{ env.GQ_LOCATION }} \
+              --sku Standard_ZRS \
+              --encryption-services blob
+      
+      - name: Create storage role
+        run: |
+          az ad signed-in-user show --query objectId -o tsv | az role assignment create \
+              --role "Storage Blob Data Contributor" \
+              --assignee @- \
+              --scope "/subscriptions/${{ secrets.AZURE_SUSB_ID }}/resourceGroups/${{ env.GQ_RESOURCE_GROUP }}/providers/Microsoft.Storage/storageAccounts/${{ env.GQ_STORAGE }}"
+
+      - name: Create storage container
+        run: |
+          az storage container create \
+              --account-name ${{ env.GQ_STORAGE_NAME }} \
+              --name ${{ env.GQ_STORAGE_CONTAINER }} \
+              --auth-mode login
+
+      - name: Create search service
+        run: |
+          az search service create \
+              --name ${{ env.GQ_SEARCH_SERVICE }} --resource-group ${{ env.GQ_RESOURCE_GROUP }} --sku ${{ env.GQ_SEARCH_SERVICE_TIER }} --location ${{ env.GQ_LOCATION }}
+
+      - name: Run Azure CLI to retrieve search service keys and send to the output
+        id: azure-search-keys
+        run: |
+          echo "::set-output name=SEARCH_KEYS::$(az search admin-key show --service-name ${{ env.GQ_SEARCH_SERVICE }} --resource-group ${{ env.GQ_RESOURCE_GROUP }})"
+      
+      - name: Display search key by scraping the previous step output
+        run: |
+          echo "Search keys is ${{ steps.azure-search-keys.outputs.SEARCH_KEYS }}"

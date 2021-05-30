@@ -1,0 +1,24 @@
+name: Delete resources
+
+on:
+  [workflow_dispatch]
+
+env:
+  GQ_RESOURCE_GROUP: gq-rg                # goqur resource group name
+
+jobs:
+  fetch:
+    name: Delete goqur resources
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Azure 
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true
+
+      - name: Delete resource group
+        run: |
+          az group delete \
+              --name ${{ env.GQ_RESOURCE_GROUP }}  \
+              --no-wait

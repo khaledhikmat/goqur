@@ -7,6 +7,9 @@ on:
 #   push:
 #     branches: [ main ]
 
+env:
+  GQ_STORAGE_CONTAINER: files             # goqur storage container name
+\
 jobs:
   upload:
     runs-on: windows-latest
@@ -23,7 +26,7 @@ jobs:
         uses: LanceMcCarthy/Action-AzureBlobUpload@v1.9.0
         with:
           connection_string: ${{secrets.AZURE_STORAGE_KEY}}
-          container_name: files
+          container_name: ${{ env.GQ_STORAGE_CONTAINER }}
           source_folder: ./uploads 
           # Optional parameters
           fail_if_source_empty: false

@@ -80,16 +80,9 @@ Initially, the following will be implemented:
 
 ## Azure Resources
 
-- az login
-- az group create -l westus -n gq-search-rg
-- az search service create --name gq-search-svc --resource-group gq-search-rg --sku free --location westus
-- az search admin-key show --service-name gq-search-svc --resource-group gq-search-rg 
-```
-{
-  "primaryKey": "********",
-  "secondaryKey": "********"
-}
-```
+There are two workflows:
+- `create.yml` to create all `goqur` resources
+- `delete.yml` to delete all `goqur` resources
 
 ## Nuget
 
