@@ -22,13 +22,6 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           enable-AzPSSession: true
 
-      - name: Delete resource group
-        run: |
-          az group delete \
-              --name ${{ env.GQ_RESOURCE_GROUP }}  \
-              --no-wait \
-              --yes
-
       - name: Create resource group
         run: |
           az group create \
