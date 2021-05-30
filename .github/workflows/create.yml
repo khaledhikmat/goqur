@@ -41,7 +41,6 @@ jobs:
         run: |
           az ad signed-in-user show --query objectId -o tsv | az role assignment create \
               --role "Storage Blob Data Contributor" \
-              --assignee @- \
               --scope "/subscriptions/${{ secrets.AZURE_SUBS_ID }}/resourceGroups/${{ env.GQ_RESOURCE_GROUP }}/providers/Microsoft.Storage/storageAccounts/${{ env.GQ_STORAGE }}"
 
       - name: Create storage container
