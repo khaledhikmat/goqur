@@ -27,6 +27,7 @@ jobs:
           az group delete \
               --name ${{ env.GQ_RESOURCE_GROUP }}  \
               --no-wait
+              --yes
 
       - name: Create resource group
         run: |
@@ -48,12 +49,12 @@ jobs:
           az ad signed-in-user show --query objectId -o tsv | az role assignment create \
               --role "Storage Blob Data Contributor" \
               --assignee @- \
-              --scope "/subscriptions/${{ secrets.AZURE_SUSB_ID }}/resourceGroups/${{ env.GQ_RESOURCE_GROUP }}/providers/Microsoft.Storage/storageAccounts/${{ env.GQ_STORAGE }}"
+              --scope "/subscriptions/${{ secrets.AZURE_SUBS_ID }}/resourceGroups/${{ env.GQ_RESOURCE_GROUP }}/providers/Microsoft.Storage/storageAccounts/${{ env.GQ_STORAGE }}"
 
       - name: Create storage container
         run: |
           az storage container create \
-              --account-name ${{ env.GQ_STORAGE_NAME }} \
+              --account-name ${{ env.GQ_STORAGE }} \
               --name ${{ env.GQ_STORAGE_CONTAINER }} \
               --auth-mode login
 
