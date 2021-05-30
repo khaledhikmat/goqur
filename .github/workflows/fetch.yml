@@ -14,10 +14,20 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           enable-AzPSSession: true
 
-      - name: Run Azure CLI to retrieve search service keys
+      - name: Run Azure CLI to retrieve search service keys and send to the output
         id: azure-search-keys
         run: |
           az search admin-key show --service-name gq-search-svc --resource-group gq-search-rg
       
-      - name: Display search service keys
-        run: echo "Keys are ${{ steps.azure-search-keys.outputs['primaryKey']}}"
+      - name: Run Azure CLI to retrieve search service keys and send to the output
+        id: azure-search-keys
+        run: |
+          echo "::set-output name=SEARCH_KEYS::$(az search admin-key show --service-name gq-search-svc --resource-group gq-search-rg)"
+      
+      - name: Display primary key by scraping the previous step output
+        run: |
+          echo "Primary keys is ${{ steps.azure-search-keys.outputs.primaryKey }}"
+
+      - name: Display primary key by scraping the previous step output
+        run: |
+          echo "Primary keys is ${{ steps.azure-search-keys.outputs.SEARCH_KEYS }}"
