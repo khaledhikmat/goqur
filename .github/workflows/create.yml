@@ -4,11 +4,11 @@ on:
   [workflow_dispatch]
 
 env:
-  GQ_RESOURCE_GROUP: gq-rg                # goqur resource group name
+  GQ_RESOURCE_GROUP: gqur-rg              # goqur resource group name
   GQ_LOCATION: westus                     # goqur location
-  GQ_STORAGE: gqstorage                   # goqur storage name
+  GQ_STORAGE: gqurstorage                 # goqur storage name
   GQ_STORAGE_CONTAINER: files             # goqur storage container name
-  GQ_SEARCH_SERVICE: gq-search            # goqur search service name
+  GQ_SEARCH_SERVICE: gqur-search          # goqur search service name
   GQ_SEARCH_SERVICE_TIER: free            # goqur search service tier
 
 jobs:

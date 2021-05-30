@@ -4,7 +4,7 @@ on:
   [workflow_dispatch]
 
 env:
-  GQ_RESOURCE_GROUP: gq-rg                # goqur resource group name
+  GQ_RESOURCE_GROUP: gqur-rg              # goqur resource group name
 
 jobs:
   fetch:
