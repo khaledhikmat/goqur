@@ -30,4 +30,4 @@ jobs:
 
       - name: Display primary key by scraping the previous step output
         run: |
-          echo "Primary keys is ${{ steps.search.outputs.SEARCH_KEYS }}"
+          echo "Primary keys is ${{ steps.azure-search-keys2.outputs.SEARCH_KEYS }}"
