@@ -37,6 +37,7 @@ jobs:
               --sku Standard_LRS \
               --encryption-services blob
       
+      # WARNING: Could not figure out how to create a storage role...I kept on having errors.
       # - name: Create storage role
       #   run: |
       #     az ad signed-in-user show --query objectId -o tsv | az role assignment create \
