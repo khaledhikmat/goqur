@@ -9,7 +9,7 @@ on:
 
 env:
   GQ_STORAGE_CONTAINER: files             # goqur storage container name
-\
+
 jobs:
   upload:
     runs-on: windows-latest

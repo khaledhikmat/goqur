@@ -26,7 +26,7 @@ jobs:
         run: |
           az group delete \
               --name ${{ env.GQ_RESOURCE_GROUP }}  \
-              --no-wait
+              --no-wait \
               --yes
 
       - name: Create resource group
@@ -63,11 +63,11 @@ jobs:
           az search service create \
               --name ${{ env.GQ_SEARCH_SERVICE }} --resource-group ${{ env.GQ_RESOURCE_GROUP }} --sku ${{ env.GQ_SEARCH_SERVICE_TIER }} --location ${{ env.GQ_LOCATION }}
 
-      - name: Run Azure CLI to retrieve search service keys and send to the output
+      - name: Retrieve search service keys and send to output
         id: azure-search-keys
         run: |
           echo "::set-output name=SEARCH_KEYS::$(az search admin-key show --service-name ${{ env.GQ_SEARCH_SERVICE }} --resource-group ${{ env.GQ_RESOURCE_GROUP }})"
       
-      - name: Display search key by scraping the previous step output
+      - name: Display search keys by scraping the previous step output
         run: |
           echo "Search keys is ${{ steps.azure-search-keys.outputs.SEARCH_KEYS }}"

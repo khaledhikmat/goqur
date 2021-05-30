@@ -21,4 +21,5 @@ jobs:
         run: |
           az group delete \
               --name ${{ env.GQ_RESOURCE_GROUP }}  \
-              --no-wait
+              --no-wait \
+              --yes

@@ -1,4 +1,4 @@
-name: Publish goqur Docker image to Docker Hub 
+name: Publish goqur functions app Docker image to Docker Hub 
 
 on:
   [workflow_dispatch]
