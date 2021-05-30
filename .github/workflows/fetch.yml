@@ -16,7 +16,7 @@ jobs:
 
       - name: Run Azure CLI to retrieve search service keys
         id: azure-search-keys
-        run: echo ::set-output name=SEARCH_KEYS::az search admin-key show --service-name gq-search-svc --resource-group gq-search-rg
+        run: az search admin-key show --service-name gq-search-svc --resource-group gq-search-rg
       
       - name: display keys
-        run: echo "Keys are ${{ steps.azure-search-keys.outputs.SEARCH_KEYS}}"
+        run: echo "Keys are ${{ steps.azure-search-keys.outputs.*}}"
