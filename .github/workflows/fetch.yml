@@ -15,5 +15,5 @@ jobs:
           enable-AzPSSession: true
 
       - name: Run Azure CLI
-            run: |
-              az search admin-key show --service-name gq-search-svc --resource-group gq-search-rg
+        run: |
+          az search admin-key show --service-name gq-search-svc --resource-group gq-search-rg
