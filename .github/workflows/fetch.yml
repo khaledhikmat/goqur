@@ -1,0 +1,19 @@
+name: Fetch AZ Search values 
+
+on:
+  [workflow_dispatch]
+
+jobs:
+  fetch:
+    name: Fetch search service keys
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Azure 
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true
+
+      - name: Run Azure CLI
+            run: |
+              az search admin-key show --service-name gq-search-svc --resource-group gq-search-rg
