@@ -8,6 +8,8 @@ on:
 #     branches: [ main ]
 
 # WARNING: Make sure to have a blob storage container called `files` created in the storage.
+# WARNING: Make sure the `secrets.AZURE_STORAGE_KEY` is up-to-date and it has the key from the latest creation 
+
 env:
   GQ_STORAGE_CONTAINER: files             # goqur storage container name
 
@@ -26,7 +28,7 @@ jobs:
       - name: Upload to Azure Blob
         uses: LanceMcCarthy/Action-AzureBlobUpload@v1.9.0
         with:
-          connection_string: ${{secrets.AZURE_STORAGE_KEY}}
+          connection_string: ${{ secrets.AZURE_STORAGE_KEY }}
           container_name: ${{ env.GQ_STORAGE_CONTAINER }}
           source_folder: ./uploads 
           # Optional parameters
