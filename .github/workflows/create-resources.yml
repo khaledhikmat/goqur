@@ -38,6 +38,10 @@ jobs:
               --encryption-services blob
       
       # WARNING: Could not figure out how to create a storage role...I kept on having errors.
+      # References: 
+      # https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-cli
+      # https://docs.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-cli?toc=/azure/storage/blobs/toc.json
+      # https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad-rbac-cli?toc=/azure/storage/blobs/toc.json
       # - name: Create storage role
       #   run: |
       #     az ad signed-in-user show --query objectId -o tsv | az role assignment create \
@@ -57,6 +61,7 @@ jobs:
           az search service create \
               --name ${{ env.GQ_SEARCH_SERVICE }} --resource-group ${{ env.GQ_RESOURCE_GROUP }} --sku ${{ env.GQ_SEARCH_SERVICE_TIER }} --location ${{ env.GQ_LOCATION }}
 
+      # Experimentations...
       - name: Retrieve search service keys and send to output
         id: azure-search-keys
         run: |

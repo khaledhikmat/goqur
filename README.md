@@ -4,7 +4,7 @@ This platform is called `goqur`. It is pronounced `go cure`. It is meant to prov
 
 ## Data source
 
-Tge `goqur` data source is a CSV file with one row per Ayaha and a header. Each has the following columns:
+The `goqur` data source is a CSV file with one row per Ayaha and a header. Each row has the following columns:
 - Surah number
 - Surah Arabic name
 - Surah English name
@@ -21,7 +21,7 @@ The main search document is therefore `Ayah`. Please see [auran-ayahs.csv](auran
 
 ## Design Notes
 
-*Custom handlers are a thing in Functions. The source has an example in Go. But obviously it makes more sense to use C# for this purpose since the client SDKs are much richer.*
+*Custom handlers are a thing in Functions. This source code has an [example](golang/server.go) in Go. But obviously it makes more sense to use C# for this purpose since the client SDKs are much richer.*
 
 - Experiment with custom handlers using Go in Azure Functions to expose  `goqur` REST endpoints.
 - Investigate these existing Quran APIs [https://quran.api-docs.io/v3/verses](https://quran.api-docs.io/v3/verses), [https://alquran.cloud/api](https://alquran.cloud/api) and [http://docs.globalquran.com/Tutorials](http://docs.globalquran.com/Tutorials).
@@ -35,14 +35,17 @@ The main search document is therefore `Ayah`. Please see [auran-ayahs.csv](auran
 - There is something wrong with the CSV parsing! It is not understanding the Collection...very unfortunate. I posted an issue in [SFO](https://stackoverflow.com/questions/67688233/how-to-import-from-csv-into-a-collection-of-strings)...no answer.
 - The CSV file that is saved from Excel does not contain double-quotes on every field.
 - Remember to disable the function app function to debug locally so it will not listen in the same blob storage
-- .NET5 is not supported in all bindings and definitely it does not work with duarable functions
+- .NET5 is not supported in all bindings and definitely it does not work with duarable functions. This is a sample out-of-process function app that shows how to inject [https://github.com/Azure/azure-functions-dotnet-worker/tree/main/samples/FunctionApp](https://github.com/Azure/azure-functions-dotnet-worker/tree/main/samples/FunctionApp). Here is what the documentation says anout .NET 5 support:
 
 ```
-A .NET 5 function app runs in an isolated worker process. Instead of building a .NET library loaded by our host, you build a .NET console app that references a worker SDK.This brings immediate benefits: you have full control over the application’s startup and the dependencies it consumes. The new programming model also adds support for custom middleware which has been a frequently requested feature.
-While this isolated model for .NET brings the above benefits, it’s worth noting there are some features you may have utilized in previous versions that aren’t yet supported. While the .NET isolated model supports most Azure Functions triggers and bindings, Durable Functions and rich types support are currently unavailable. Take a blob trigger for example, you are limited to passing blob content using data types that are supported in the out-of-process language worker model, which today are string, byte[], and POCO. You can still use Azure SDK types like CloudBlockBlob, but you’ll need to instantiate the SDK in your function process.
-```
+A .NET 5 function app runs in an isolated worker process. Instead of building a .NET library loaded by our host, you build a .NET console app that references a worker SDK.
 
-- This is a sample out-of-process function app that shows how to inject [https://github.com/Azure/azure-functions-dotnet-worker/tree/main/samples/FunctionApp](https://github.com/Azure/azure-functions-dotnet-worker/tree/main/samples/FunctionApp)
+This brings immediate benefits: you have full control over the application’s startup and the dependencies it consumes. The new programming model also adds support for custom middleware which has been a frequently requested feature.
+
+While this isolated model for .NET brings the above benefits, it's worth worth noting there are some features you may have utilized in previous versions that aren't yet supported.
+
+While the .NET isolated model supports most Azure Functions triggers and bindings, Durable Functions and rich types support are currently unavailable. Take a blob trigger for example, you are limited to passing blob content using data types that are supported in the out-of-process language worker model, which today are string, byte[] and POCO. You can still use Azure SDK types like CloudBlockBlob, you you'll need to instantiate the SDK in your function process.  
+```
 
 ## Microservices
 
@@ -72,12 +75,14 @@ There are two workflows:
 ## Nuget
 
 - Needed several packages. Example:
+
 ```
 dotnet add package Azure.Search.Documents --version 11.3.0-beta.2
 dotnet add package Microsoft.Azure.WebJobs.Extensions.Storage
 ```
 
 - Added the shared lib to the functions app project:
+
 ```
 cd csharp
 dotnet add functionsapp/functionsapp.csproj reference shared/shared.csproj
