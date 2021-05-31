@@ -72,7 +72,7 @@ There are two workflows:
 
 **WARNING:** I could not auto-create the blob storage `files` container. Please see comments in `create.yml`. 
 
-## Nuget
+## Nuget
 
 - Needed several packages. Example:
 
@@ -90,7 +90,8 @@ dotnet add functionsapp/functionsapp.csproj reference shared/shared.csproj
 
 - Omni sharp needed help by selecting the project
 
-## Manager
+
+## Manager
 
 This is a Console app created to experiment with `delete`, `create` and `upload` documents programmatically. This app is not only used for experimentation purpose and has no bearing on the entire solution:
 
@@ -106,7 +107,7 @@ dotnet run create
 
 To initialize a Docker file, use this command in the functions app project:
 ```
-Func init --help
+func init --help
 func init --docker-only --worker-runtime dotnetIsolated
 docker image build --tag goqur-functions .
 ```
