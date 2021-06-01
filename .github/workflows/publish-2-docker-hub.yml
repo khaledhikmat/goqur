@@ -3,6 +3,10 @@ name: Publish goqur functions app Docker image to Docker Hub
 on:
   [workflow_dispatch]
 
+env:
+  GQ_IMAGE_NAME: goqur-functions
+  GQ_IMAGE_VERSION: latest
+  
 jobs:
   publish:
     name: Dockerize and publish
@@ -21,4 +25,4 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: khaledhikmat/goqur-functions:latest
+          tags: khaledhikmat/${{ env.GQ_IMAGE_NAME }}:${{ env.GQ_IMAGE_VERSION }}

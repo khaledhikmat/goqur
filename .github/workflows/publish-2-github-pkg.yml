@@ -1,0 +1,53 @@
+name: Publish goqur functions app Docker image to Github package 
+
+on:
+  [workflow_dispatch]
+
+env:
+  GQ_IMAGE_NAME: goqur-functions
+  GQ_IMAGE_VERSION: latest
+  
+jobs:
+  publish:
+    name: Dockerize and publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo 
+        uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker image build . --file Dockerfile --tag ${{ env.GQ_IMAGE_NAME }}
+
+      - name: Log into the Github registry i.e. package
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+
+      - name: Push image
+        run: |
+          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/${{ env.GQ_IMAGE_NAME }}
+          
+          # Change all uppercase to lowercase
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+
+          # Use Docker `latest` tag convention
+          [ "$VERSION" == "master" ] && VERSION=latest
+
+          echo 'Real version'
+          echo IMAGE_ID=$IMAGE_ID
+          echo VERSION=$VERSION
+
+          # Ignore VERSION for now....just use latest
+          VERSION=${{ env.GQ_IMAGE_VERSION }}
+
+          echo 'Fake version'
+          echo IMAGE_ID=$IMAGE_ID
+          echo VERSION=$VERSION
+
+          # Push to Github repository
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION

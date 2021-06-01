@@ -1,4 +1,4 @@
-name: Prepare and Upload CSV to Azure Blob
+name: Prepare and Upload Ayahs CSV to Azure Blob
 
 on:
   [workflow_dispatch]
