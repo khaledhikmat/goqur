@@ -6,6 +6,7 @@ on:
 env:
   GQ_IMAGE_NAME: goqur-functions
   GQ_IMAGE_VERSION: latest
+  DOCKER_HUB_PREFIX: khaledhikmat
   
 jobs:
   publish:
@@ -25,4 +26,4 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: khaledhikmat/${{ env.GQ_IMAGE_NAME }}:${{ env.GQ_IMAGE_VERSION }}
+          tags: ${{ env.DOCKER_HUB_PREFIX }}/${{ env.GQ_IMAGE_NAME }}:${{ env.GQ_IMAGE_VERSION }}
