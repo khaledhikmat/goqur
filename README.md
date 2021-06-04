@@ -37,15 +37,13 @@ The main search document is therefore `Ayah`. Please see [auran-ayahs.csv](auran
 - Remember to disable the function app function to debug locally so it will not listen in the same blob storage
 - .NET5 is not supported in all bindings and definitely it does not work with duarable functions. This is a sample out-of-process function app that shows how to inject [https://github.com/Azure/azure-functions-dotnet-worker/tree/main/samples/FunctionApp](https://github.com/Azure/azure-functions-dotnet-worker/tree/main/samples/FunctionApp). Here is what the documentation says anout .NET 5 support:
 
-```
-A .NET 5 function app runs in an isolated worker process. Instead of building a .NET library loaded by our host, you build a .NET console app that references a worker SDK.
+> A .NET 5 function app runs in an isolated worker process. Instead of building a .NET library loaded by our host, you build a .> NET console app that references a worker SDK.
 
-This brings immediate benefits: you have full control over the application’s startup and the dependencies it consumes. The new programming model also adds support for custom middleware which has been a frequently requested feature.
+> This brings immediate benefits: you have full control over the application’s startup and the dependencies it consumes. The new programming model also adds support for custom middleware which has been a frequently requested feature.
 
-While this isolated model for .NET brings the above benefits, it's worth worth noting there are some features you may have utilized in previous versions that aren't yet supported.
+> While this isolated model for .NET brings the above benefits, it's worth worth noting there are some features you may have utilized in previous versions that aren't yet supported.
 
-While the .NET isolated model supports most Azure Functions triggers and bindings, Durable Functions and rich types support are currently unavailable. Take a blob trigger for example, you are limited to passing blob content using data types that are supported in the out-of-process language worker model, which today are string, byte[] and POCO. You can still use Azure SDK types like CloudBlockBlob, you you'll need to instantiate the SDK in your function process.  
-```
+> While the .NET isolated model supports most Azure Functions triggers and bindings, Durable Functions and rich types support are currently unavailable. Take a blob trigger for example, you are limited to passing blob content using data types that are supported in the out-of-process language worker model, which today are string, byte[] and POCO. You can still use Azure SDK types like CloudBlockBlob, you you'll need to instantiate the SDK in your function process.  
 
 ## Microservices
 
@@ -125,9 +123,21 @@ Pass all the settings as env variables to the local image:
 docker container run -it -p 8080:80 -e SEARCH_SVC_ENDPOINT=https://your-svs.search.windows.net -e SEARCH_SVC_API_KEY=your-key -e AzureWebJobsAzureWebJobsStorage="DefaultEndpointsProtocol=https;AccountName=your-name;AccountKey=your-key;EndpointSuffix=core.windows.net"  -e AzureWebJobsStorage="DefaultEndpointsProtocol=https;AccountName=your-name;AccountKey=your-key;EndpointSuffix=core.windows.net" goqur-functions
 ```
 
-Pass all the settings as env variables to the Docker hub image:
+Pass all the settings as env variables to the Docker Hub registry image:
 ```
 docker container run -it -p 8080:80 -e SEARCH_SVC_ENDPOINT=https://your-svs.search.windows.net -e SEARCH_SVC_API_KEY=your-key -e AzureWebJobsAzureWebJobsStorage="DefaultEndpointsProtocol=https;AccountName=your-name;AccountKey=your-key;EndpointSuffix=core.windows.net"  -e AzureWebJobsStorage="DefaultEndpointsProtocol=https;AccountName=your-name;AccountKey=your-key;EndpointSuffix=core.windows.net" khaledhikmat/goqur-functions:latest
+```
+
+Pass all the settings as env variables to the Docker Github Package registery image. To do so, you need to login using a PAT (Personal Access Token). Here is how:
+- Create a an access token that you can use from your github account 
+- github -> settings-> Developer Settings -> tokens -> Personal access tokens 
+- Make sure the token has Read and/or Write access to github registry 
+- Then login to the registry: 1docker login docker.pkg.github.com --username <your_user_name> --password <generated_token_not_password>1
+- Now pull/push to the registry should work 
+
+```
+docker login https://docker.pkg.github.com --username khaled.hikmat@gmail.com --password ********
+docker container run -it -p 8080:80 -e SEARCH_SVC_ENDPOINT=https://your-svs.search.windows.net -e SEARCH_SVC_API_KEY=your-key -e AzureWebJobsAzureWebJobsStorage="DefaultEndpointsProtocol=https;AccountName=your-name;AccountKey=your-key;EndpointSuffix=core.windows.net"  -e AzureWebJobsStorage="DefaultEndpointsProtocol=https;AccountName=your-name;AccountKey=your-key;EndpointSuffix=core.windows.net" docker.pkg.github.com/khaledhikmat/goqur/goqur-functions:latest
 ```
 
 Deploy to the default namespace. Make sure to update the env variables in `deployment.yml` for your environment:

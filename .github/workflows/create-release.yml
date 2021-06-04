@@ -1,0 +1,59 @@
+name: Create a release
+
+on:
+  push:
+    tags:
+    - '*'
+
+env:
+  GQ_IMAGE_NAME: goqur-functions
+  GQ_IMAGE_VERSION: latest
+  
+jobs:
+  publish:
+    name: Dockerize and publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo 
+        uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker image build . --file Dockerfile --tag ${{ env.GQ_IMAGE_NAME }}
+
+      - name: Log into the Github package registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+
+      - name: Get the tag version
+        id: get_tag_version
+        run: |
+          # Strip git ref prefix from version
+          echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
+      - name: Push image
+        run: |
+          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/${{ env.GQ_IMAGE_NAME }}
+          
+          # Change all uppercase to lowercase
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+
+          # Read the tag version from a previous step
+          VERSION=${{ steps.get_tag_version.outputs.VERSION }}
+
+          echo 'Tag version'
+          echo IMAGE_ID=$IMAGE_ID
+          echo VERSION=$VERSION
+
+          # Push to Github repository
+          docker tag ${{ env.GQ_IMAGE_NAME }} $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
+
+      - name: Create Release  
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ steps.get_tag_version.outputs.VERSION }}
+          release_name: Release ${{ steps.get_tag_version.outputs.VERSION }}
+          bodyFile: "RELEASE.md"
+          draft: false
+          prerelease: true

@@ -1,7 +1,9 @@
 name: Publish goqur functions app Docker image to Docker Hub 
 
 on:
-  [workflow_dispatch]
+  push:
+    branches:
+      - main
 
 env:
   GQ_IMAGE_NAME: goqur-functions
